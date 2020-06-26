@@ -2,26 +2,23 @@ package com.example.flixster.adapters;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.graphics.drawable.LayerDrawable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.ImageView;
-
 import com.bumptech.glide.Glide;
 import com.example.flixster.MovieDetailsActivity;
 import com.example.flixster.R;
+import com.example.flixster.databinding.ItemMovieBinding;
 import com.example.flixster.models.Movie;
-
 import org.parceler.Parcels;
-
 import java.util.List;
-
 import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 
 
@@ -29,6 +26,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder>{
 
     Context context;
     List<Movie> movies;
+    ItemMovieBinding bindingFinal;
 
     public MovieAdapter(Context context, List<Movie> movies) {
         this.context = context;
@@ -40,7 +38,11 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder>{
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         Log.d("MovieAdapter", "onCreateViewHolder");
-        View movieView = LayoutInflater.from(context).inflate(R.layout.item_movie, parent, false);
+        LayoutInflater inflater = LayoutInflater.from(context);
+        bindingFinal = ItemMovieBinding.inflate(inflater, parent, false);
+        View movieView = bindingFinal.getRoot();
+
+//        View movieView = LayoutInflater.from(context).inflate(R.layout.item_movie, parent, false);
         return new ViewHolder(movieView);
     }
 
@@ -69,9 +71,13 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder>{
 
         public ViewHolder(@NonNull View itemView)    {
             super(itemView);
-            tvTitle = itemView.findViewById(R.id.tvTitle);
-            tvOverview = itemView.findViewById(R.id.tvOverview);
-            ivPoster = itemView.findViewById(R.id.ivPoster);
+//            tvTitle = itemView.findViewById(R.id.tvTitle);
+            tvTitle = bindingFinal.tvTitle;
+            tvOverview = bindingFinal.tvOverview;
+            ivPoster = bindingFinal.ivPoster;
+
+//            tvOverview = itemView.findViewById(R.id.tvOverview);
+//            ivPoster = itemView.findViewById(R.id.ivPoster);
             itemView.setOnClickListener(this);
         }
 
