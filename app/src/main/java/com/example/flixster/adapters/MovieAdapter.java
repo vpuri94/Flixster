@@ -33,7 +33,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder>{
         this.movies = movies;
     }
 
-    //Usually involves inflating a layout from XML and returning the holder
+    // Usually involves inflating a layout from XML and returning the holder
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -41,22 +41,21 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder>{
         LayoutInflater inflater = LayoutInflater.from(context);
         bindingFinal = ItemMovieBinding.inflate(inflater, parent, false);
         View movieView = bindingFinal.getRoot();
-
         return new ViewHolder(movieView);
     }
 
 
-    //Involved populating data into the item through holder
+    // Involved populating data into the item through holder
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Log.d("MovieAdapter", "onBindViewHolder" + position);
-        //Get the movie at the passed in position
+        // Get the movie at the passed in position
         Movie movie = movies.get(position);
-        //Bind the movie data into the view holder
+        // Bind the movie data into the view holder
         holder.bind(movie);
     }
 
-    //Returns the total count of items in the list
+    // Returns the total count of items in the list
     @Override
     public int getItemCount() {
         return movies.size();
@@ -70,19 +69,15 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder>{
 
         public ViewHolder(@NonNull View itemView)    {
             super(itemView);
-//            tvTitle = itemView.findViewById(R.id.tvTitle);
             tvTitle = bindingFinal.tvTitle;
             tvOverview = bindingFinal.tvOverview;
             ivPoster = bindingFinal.ivPoster;
-
-//            tvOverview = itemView.findViewById(R.id.tvOverview);
-//            ivPoster = itemView.findViewById(R.id.ivPoster);
             itemView.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View view) {
-            //gets item position
+            // gets item position
             int position = getAdapterPosition();
             // make sure the position is valid, i.e actually exists in the view
             if(position != RecyclerView.NO_POSITION) {
@@ -92,7 +87,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder>{
                 Intent intent = new Intent(context, MovieDetailsActivity.class);
                 // serialize the movie using parceler, use its short name as a key
                 intent.putExtra(Movie.class.getSimpleName(), Parcels.wrap(movie));
-                //show the activity
+                // show the activity
                 context.startActivity(intent);
             }
         }
@@ -102,22 +97,19 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder>{
             tvOverview.setText(movie.getOverview());
             String imageUrl;
 
-            //Rounded corners setup
+            // Rounded corners setup
             int radius = 30;
             int margin = 10;
 
-            // if phone is in landscape
             if(context.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE){
-                // then imageurl = backdrop image
                 imageUrl = movie.getBackdropPath();
-                //Case 1: If landscape, use landscape placeholder gif to load.
+                // Case 1: If landscape, use landscape placeholder gif to load.
                 Glide.with(context).load(imageUrl).transform(new RoundedCornersTransformation(radius, margin)).placeholder(R.drawable.flicks_backdrop_placeholder).into(ivPoster);
 
             }
             else {
-                //else imageUrl = poster image
                 imageUrl = movie.getPosterPath();
-                //Case 2: If portrait, use the portrait placeholder gif
+                // Case 2: If portrait, use the portrait placeholder gif
                 Glide.with(context).load(imageUrl).transform(new RoundedCornersTransformation(radius, margin)).placeholder(R.drawable.flicks_movie_placeholder).into(ivPoster);
             }
 
