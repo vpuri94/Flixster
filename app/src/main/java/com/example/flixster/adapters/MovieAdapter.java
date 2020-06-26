@@ -22,6 +22,8 @@ import org.parceler.Parcels;
 
 import java.util.List;
 
+import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
+
 
 public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder>{
 
@@ -94,17 +96,26 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder>{
             tvTitle.setText(movie.getTitle());
             tvOverview.setText(movie.getOverview());
             String imageUrl;
+
+            //Rounded corners setup
+            int radius = 30;
+            int margin = 10;
+
             // if phone is in landscape
             if(context.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE){
+                // then imageurl = backdrop image
                 imageUrl = movie.getBackdropPath();
-            }
-            else{
-                imageUrl = movie.getPosterPath();
-            }
-            // then imageurl = backdrop image
-            //else imageUrl = poster image
+                //Case 1: If landscape, use landscape placeholder gif to load.
+                Glide.with(context).load(imageUrl).transform(new RoundedCornersTransformation(radius, margin)).placeholder(R.drawable.flicks_backdrop_placeholder).into(ivPoster);
 
-            Glide.with(context).load(imageUrl).into(ivPoster);
+            }
+            else {
+                //else imageUrl = poster image
+                imageUrl = movie.getPosterPath();
+                //Case 2: If portrait, use the portrait placeholder gif
+                Glide.with(context).load(imageUrl).transform(new RoundedCornersTransformation(radius, margin)).placeholder(R.drawable.flicks_movie_placeholder).into(ivPoster);
+            }
+
         }
     }
 }
