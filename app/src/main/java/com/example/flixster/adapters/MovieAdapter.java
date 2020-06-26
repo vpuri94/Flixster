@@ -42,7 +42,6 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder>{
         bindingFinal = ItemMovieBinding.inflate(inflater, parent, false);
         View movieView = bindingFinal.getRoot();
 
-//        View movieView = LayoutInflater.from(context).inflate(R.layout.item_movie, parent, false);
         return new ViewHolder(movieView);
     }
 
